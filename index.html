@@ -3,503 +3,353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shades of Hue | True Summer</title>
+  <title>Shades of Hue Client Palette</title>
   <style>
     :root {
-      --bg: #f7f5fb;
-      --text: #57507b;
-      --muted: #7a7497;
-      --card: rgba(255,255,255,0.72);
-      --border: rgba(87,80,123,0.12);
-      --shadow: 0 10px 30px rgba(87,80,123,0.08);
+      --bg: #f6f0ee;
+      --card: rgba(255,255,255,0.78);
+      --text: #3f3436;
+      --muted: #85767a;
+      --line: rgba(63,52,54,0.10);
+      --shadow: 0 14px 40px rgba(79, 57, 61, 0.10);
+      --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; }
     html, body {
       margin: 0;
-      padding: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(228, 220, 244, 0.9), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(204, 231, 246, 0.95), transparent 34%),
-        linear-gradient(180deg, #f7f5fb 0%, #f9f7fc 45%, #f5fbff 100%);
+        radial-gradient(circle at top left, rgba(255,255,255,0.82), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(230,217,223,0.55), transparent 22%),
+        linear-gradient(180deg, #faf5f4 0%, #f1e7e8 100%);
       color: var(--text);
-      font-family: Georgia, "Times New Roman", serif;
-      min-height: 100%;
     }
 
-    body {
-      padding: 24px 16px 36px;
-    }
+    body { padding: 18px; }
 
-    .page {
-      max-width: 920px;
-      margin: 0 auto;
-    }
+    .shell { max-width: 1150px; margin: 0 auto; display: grid; gap: 18px; }
 
     .hero {
-      text-align: center;
-      padding: 8px 0 18px;
-    }
-
-    .brand {
-      font-size: 15px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.08;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .subtitle {
-      margin-top: 12px;
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .top-card {
-      margin: 24px auto 22px;
-      max-width: 760px;
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 28px;
       box-shadow: var(--shadow);
-      padding: 18px 18px 16px;
+      padding: 22px;
+    }
+
+    .brand { font-family: Georgia, serif; font-size: 2.4rem; }
+    .sub { color: var(--muted); }
+
+    .layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; }
+
+    .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+    .sidebar { padding: 14px; }
+
+    .season-btn {
+      width: 100%; padding: 10px; border-radius: 12px;
+      border: 1px solid var(--line);
+      margin-bottom: 6px; cursor: pointer;
+    }
+
+    .content { padding: 18px; }
+
+    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+
+    .group-gap {
+      grid-column: 1 / -1;
+      height: 18px;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+    }
+
+    .lightbox {
+      position: fixed; inset: 0; display: none;
+      background: rgba(0,0,0,0.82);
+      justify-content: center; align-items: center;
+      padding: 18px;
+    }
+
+    .lightbox.show { display: flex; }
+
+    .lightbox-inner {
+      width: min(92vw, 760px);
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+    }
+
+    .lightbox-card {
+      width: 100%;
+      height: min(74vh, 660px);
+      border-radius: 30px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+      touch-action: pan-y;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .swipe-hint {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: white;
+      font-size: 0.75rem;
+      letter-spacing: .08em;
+      opacity: .9;
+      z-index: 2;
+      transition: opacity .5s ease;
+    }
+
+    .swipe-hint.hide {
+      opacity: 0;
+    }
+
+    .swipe-arrow {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      font-size: 10px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      opacity: 0.9;
+    }
+
+    .swipe-label {
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 7px 10px;
       backdrop-filter: blur(6px);
     }
 
-    .top-card-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      text-align: center;
-    }
-
-    .season-title {
-      font-size: clamp(1.35rem, 2.8vw, 1.9rem);
-      line-height: 1.2;
-      margin: 0;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .season-note {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.5;
-      max-width: 620px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .instructions {
-      margin-top: 6px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .section {
-      margin-top: 22px;
-    }
-
-    .section-label {
-      margin: 0 0 12px;
-      font-size: 0.98rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: left;
-      padding-left: 2px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .palette-grid {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .swatch {
-      aspect-ratio: 1 / 1;
-      border: none;
-      border-radius: 18px;
-      cursor: pointer;
-      box-shadow:
-        inset 0 0 0 1px rgba(60, 56, 88, 0.08),
-        0 8px 18px rgba(87, 80, 123, 0.08);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    .lightbox-toolbar {
       width: 100%;
-    }
-
-    .swatch:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        inset 0 0 0 1px rgba(60, 56, 88, 0.1),
-        0 10px 22px rgba(87, 80, 123, 0.12);
-    }
-
-    .swatch:active {
-      transform: scale(0.98);
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 26px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.5;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    /* Fullscreen viewer */
-    .viewer {
-      position: fixed;
-      inset: 0;
-      display: none;
-      z-index: 9999;
-      background: #000;
-      touch-action: pan-y;
-    }
-
-    .viewer.active {
-      display: block;
-    }
-
-    .viewer-color {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .viewer-top {
-      position: absolute;
-      top: max(14px, env(safe-area-inset-top));
-      left: 0;
-      right: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      padding: 0 14px;
-      z-index: 2;
-      pointer-events: none;
+      gap: 12px;
+      color: white;
     }
 
-    .pill,
-    .close-btn,
-    .nav-btn {
-      pointer-events: auto;
+    .lightbox-hex { font-weight: 600; }
+
+    .nav-btn, .close-btn {
       border: none;
-      background: rgba(255,255,255,0.88);
-      color: #3e3a59;
+      background: rgba(255,255,255,0.16);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
       backdrop-filter: blur(8px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
     }
 
-    .pill {
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 0.88rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .close-btn {
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .viewer-bottom {
-      position: absolute;
-      bottom: max(18px, env(safe-area-inset-bottom));
-      left: 0;
-      right: 0;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0 16px;
-      pointer-events: none;
-    }
-
-    .nav-btn {
-      pointer-events: auto;
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .swipe-tip {
-      pointer-events: auto;
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-size: 0.88rem;
-      line-height: 1;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    @media (max-width: 860px) {
-      .palette-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 18px 12px 28px;
-      }
-
-      .top-card {
-        border-radius: 20px;
-        padding: 16px 14px 14px;
-      }
-
-      .palette-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .swatch {
-        border-radius: 16px;
-      }
-
-      .viewer-top {
-        padding: 0 10px;
-      }
-
-      .pill {
-        font-size: 0.8rem;
-        padding: 9px 12px;
-      }
-
-      .close-btn {
-        font-size: 0.88rem;
-        padding: 9px 12px;
-      }
-
-      .swipe-tip {
-        font-size: 0.8rem;
-        padding: 11px 14px;
-      }
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: repeat(3,1fr); }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="hero">
-      <div class="brand">Shades of Hue</div>
-      <h1>True Summer</h1>
-      <div class="subtitle">A cool, refined palette of softened brights, airy pastels, graceful blues, rose tones, and elegant neutrals.</div>
-    </div>
+  <div class="shell">
+    <section class="hero">
+      <h1 class="brand">Shades of Hue</h1>
+      <p class="sub">Tap any color to see it full screen. Swipe between colors.</p>
+    </section>
 
-    <div class="top-card">
-      <div class="top-card-inner">
-        <h2 class="season-title">Your True Summer Palette</h2>
-        <p class="season-note">Tap any color to view it full screen. When full screen is open, swipe left or right to move through the palette.</p>
-        <div class="instructions">Soft • cool • balanced • refined</div>
-      </div>
-    </div>
-
-    <div id="palette-sections"></div>
-
-    <div class="footer-note">
-      Shades of Hue Personal Color Analysis
-    </div>
+    <section class="layout">
+      <aside class="panel sidebar" id="seasonList"></aside>
+      <main class="panel content">
+        <h2 id="paletteName">Soft Summer</h2>
+        <div class="grid" id="colorGrid"></div>
+      </main>
+    </section>
   </div>
 
-  <div id="viewer" class="viewer" aria-hidden="true">
-    <div id="viewerColor" class="viewer-color"></div>
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <div class="lightbox-toolbar">
+        <div class="lightbox-hex" id="lightboxHex">#000000</div>
+        <div>
+          <button class="nav-btn" id="prevBtn">←</button>
+          <button class="nav-btn" id="nextBtn">→</button>
+          <button class="close-btn" id="closeBtn">Close</button>
+        </div>
+      </div>
 
-    <div class="viewer-top">
-      <div id="viewerCount" class="pill">1 / 48</div>
-      <button id="closeBtn" class="close-btn" type="button">Close</button>
-    </div>
-
-    <div class="viewer-bottom">
-      <button id="prevBtn" class="nav-btn" type="button" aria-label="Previous color">&#8592;</button>
-      <div class="pill swipe-tip">Swipe to browse colors</div>
-      <button id="nextBtn" class="nav-btn" type="button" aria-label="Next color">&#8594;</button>
+      <div class="lightbox-card" id="lightboxCard">
+        <div class="swipe-hint">
+          <button class="swipe-arrow" id="hintPrevBtn" type="button" aria-label="Previous color">←</button>
+          <div class="swipe-label">SWIPE</div>
+          <button class="swipe-arrow" id="hintNextBtn" type="button" aria-label="Next color">→</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    const paletteSections = [
-      {
-        title: "Neutrals",
-        colors: [
-          "#F5F2F5", "#ECE5EA", "#DDD3DA", "#CFC3CC",
-          "#C3B7BE", "#B3A5AD", "#A1949A", "#8F8389"
-        ]
-      },
-      {
-        title: "Pinks & Roses",
-        colors: [
-          "#F2DCE8", "#E9CDD9", "#DFBDCA", "#D4AEBB",
-          "#C99EAD", "#BE8E9E", "#B27F90", "#A66F81"
-        ]
-      },
-      {
-        title: "Lavenders & Plums",
-        colors: [
-          "#E8E0F0", "#DCCFE7", "#D0BFDE", "#C3AED5",
-          "#B79ECC", "#AA8DC3", "#9E7DBA", "#8F6AAE"
-        ]
-      },
-      {
-        title: "Blues",
-        colors: [
-          "#DDE9F4", "#CDDEEF", "#BDD2EA", "#ADC6E4",
-          "#9DBBDF", "#8DAFDA", "#7CA3D4", "#6C97CE"
-        ]
-      },
-      {
-        title: "Teals & Blue-Greens",
-        colors: [
-          "#DCECED", "#CCE2E4", "#BCD8DB", "#ACCDD2",
-          "#9CC3C9", "#8CB9C0", "#7CAEB7", "#6CA4AE"
-        ]
-      },
-      {
-        title: "Soft Berry Tones",
-        colors: [
-          "#E4D5DF", "#D8C2D0", "#CCAEC1", "#C09AB2",
-          "#B486A3", "#A87294", "#9C5E85", "#8E4D77"
-        ]
-      }
+    const curatedSoftSummer = [
+      // COOL GREYS / TAUPES (from image top row)
+      '#7F7F81','#9A9E9E','#A59694','#B8AFAD','#C8BEB3','#D3C8B8',
+      '#CFC7BE','#C7C2B3','#B7B4A8','#A7A59D','#96948E','#7C7B78',
+
+      // DUSTY BLUES (denim → soft sky)
+      '#556F97','#7FA5C7','#467CA8','#5C8FBD','#587C9B','#6E93B2',
+      '#8FA8C3','#A5BBD1','#4E6B8F','#6E8FB0','#88A6C0','#B2C4D7',
+
+      // TEALS / BLUE GREENS
+      '#356563','#4C7A6D','#567F86','#5F8F91','#7FAEA3','#6F9A8A',
+      '#89AD88','#9AAA90','#2F6A5F','#3F7F75','#5B9C90','#79B3A7',
+
+      // MAUVE / PURPLE FAMILY
+      '#6F5B6E','#575775','#67678A','#7878A0','#8A8FB1','#9EA3BF',
+      '#A87895','#B2749E','#5F5164','#6E668C','#8787A8','#A3A7C2',
+
+      // ROSES / PINKS
+      '#754C62','#9C5569','#B0717F','#C28792','#D497A1','#E0AEB4',
+      '#C04863','#E14F67','#E08D94','#E3A1A6','#D89198','#E6BFC3',
+
+      // WARM SOFTS / BEIGE / GOLD
+      '#C9B67B','#D8C892','#D3B982','#D7CEBA','#7C726C','#918B80',
+      '#868986','#B9B6B2','#E4D79F','#E8D6A4','#CFA35A','#9C7A49'
     ];
 
-    const allColors = paletteSections.flatMap(section => section.colors);
+    const palettes = {
+      'Soft Summer': curatedSoftSummer
+    };
 
-    const sectionsContainer = document.getElementById("palette-sections");
+    const seasonList = document.getElementById('seasonList');
+    const colorGrid = document.getElementById('colorGrid');
+    const paletteName = document.getElementById('paletteName');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxCard = document.getElementById('lightboxCard');
+    const lightboxHex = document.getElementById('lightboxHex');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const hintPrevBtn = document.getElementById('hintPrevBtn');
+    const hintNextBtn = document.getElementById('hintNextBtn');
 
-    paletteSections.forEach(section => {
-      const sectionWrap = document.createElement("section");
-      sectionWrap.className = "section";
-
-      const label = document.createElement("h3");
-      label.className = "section-label";
-      label.textContent = section.title;
-
-      const grid = document.createElement("div");
-      grid.className = "palette-grid";
-
-      section.colors.forEach(color => {
-        const btn = document.createElement("button");
-        btn.className = "swatch";
-        btn.type = "button";
-        btn.style.background = color;
-        btn.setAttribute("aria-label", color);
-        btn.addEventListener("click", () => openViewer(allColors.indexOf(color)));
-        grid.appendChild(btn);
-      });
-
-      sectionWrap.appendChild(label);
-      sectionWrap.appendChild(grid);
-      sectionsContainer.appendChild(sectionWrap);
-    });
-
-    const viewer = document.getElementById("viewer");
-    const viewerColor = document.getElementById("viewerColor");
-    const viewerCount = document.getElementById("viewerCount");
-    const closeBtn = document.getElementById("closeBtn");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-
+    let currentPaletteName = 'Soft Summer';
     let currentIndex = 0;
     let touchStartX = 0;
-    let touchEndX = 0;
+    let swipeHintTimeout;
 
-    function updateViewer() {
-      const color = allColors[currentIndex];
-      viewerColor.style.background = color;
-      viewerCount.textContent = (currentIndex + 1) + " / " + allColors.length;
+    function render() {
+      seasonList.innerHTML = '';
+      Object.keys(palettes).forEach(name => {
+        const btn = document.createElement('button');
+        btn.className = 'season-btn';
+        btn.textContent = name;
+        btn.onclick = () => loadPalette(name);
+        seasonList.appendChild(btn);
+      });
+
+      loadPalette('Soft Summer');
     }
 
-    function openViewer(index) {
+    function loadPalette(name) {
+      currentPaletteName = name;
+      paletteName.textContent = `${name} (${palettes[name].length} colors)`;
+      colorGrid.innerHTML = '';
+      palettes[name].forEach((color, index) => {
+        if (index !== 0 && index % 12 === 0) {
+          const gap = document.createElement('div');
+          gap.className = 'group-gap';
+          colorGrid.appendChild(gap);
+        }
+
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.style.background = color;
+        tile.onclick = () => open(index);
+        colorGrid.appendChild(tile);
+      });
+    }
+
+    function updateLightbox() {
+      const colors = palettes[currentPaletteName];
+      const color = colors[currentIndex];
+      lightboxCard.style.background = color;
+      lightboxHex.textContent = color;
+
+      const hint = document.querySelector('.swipe-hint');
+      hint.classList.remove('hide');
+      clearTimeout(swipeHintTimeout);
+      swipeHintTimeout = setTimeout(() => {
+        hint.classList.add('hide');
+      }, 1000);
+    }
+
+    function open(index) {
       currentIndex = index;
-      updateViewer();
-      viewer.classList.add("active");
-      viewer.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
+      updateLightbox();
+      lightbox.classList.add('show');
     }
 
-    function closeViewer() {
-      viewer.classList.remove("active");
-      viewer.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
+    function closeLightbox() {
+      lightbox.classList.remove('show');
     }
 
-    function nextColor() {
-      currentIndex = (currentIndex + 1) % allColors.length;
-      updateViewer();
+    // REMOVE TAP-TO-CLOSE ON COLOR (so swipe works reliably)
+    // users close using background tap or close button
+
+    function showPrev() {
+      const colors = palettes[currentPaletteName];
+      currentIndex = (currentIndex - 1 + colors.length) % colors.length;
+      updateLightbox();
     }
 
-    function prevColor() {
-      currentIndex = (currentIndex - 1 + allColors.length) % allColors.length;
-      updateViewer();
+    function showNext() {
+      const colors = palettes[currentPaletteName];
+      currentIndex = (currentIndex + 1) % colors.length;
+      updateLightbox();
     }
 
-    closeBtn.addEventListener("click", closeViewer);
-    nextBtn.addEventListener("click", nextColor);
-    prevBtn.addEventListener("click", prevColor);
+    prevBtn.onclick = showPrev;
+    nextBtn.onclick = showNext;
+    hintPrevBtn.onclick = (e) => {
+      e.stopPropagation();
+      showPrev();
+    };
+    hintNextBtn.onclick = (e) => {
+      e.stopPropagation();
+      showNext();
+    };
+    closeBtn.onclick = closeLightbox;
 
-    viewer.addEventListener("click", (e) => {
-      if (e.target === viewerColor) {
-        nextColor();
-      }
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
     });
 
-    document.addEventListener("keydown", (e) => {
-      if (!viewer.classList.contains("active")) return;
-
-      if (e.key === "Escape") closeViewer();
-      if (e.key === "ArrowRight") nextColor();
-      if (e.key === "ArrowLeft") prevColor();
+    lightboxCard.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].clientX);
+    lightboxCard.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if(Math.abs(diff) < 40) return;
+      diff < 0 ? showNext() : showPrev();
     });
 
-    viewer.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    viewer.addEventListener("touchend", (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-      const diff = touchEndX - touchStartX;
-      const threshold = 40;
-
-      if (Math.abs(diff) < threshold) return;
-
-      if (diff < 0) {
-        nextColor();
-      } else {
-        prevColor();
-      }
-    }
+    render();
   </script>
 </body>
 </html>
