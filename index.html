@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shades of Hue</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:white;
+}
+
+.header{
+text-align:center;
+padding:20px;
+font-size:22px;
+font-weight:600;
+}
+
+.palette{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+}
+
+.color{
+aspect-ratio:1;
+cursor:pointer;
+}
+
+#fullscreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+}
+
+#fullcolor{
+width:100%;
+height:100%;
+}
+
+#close{
+position:absolute;
+top:20px;
+right:20px;
+background:white;
+border:none;
+padding:10px 14px;
+border-radius:8px;
+font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Soft Summer</div>
+
+<div class="palette" id="palette"></div>
+
+<div id="fullscreen">
+<div id="fullcolor"></div>
+<button id="close">Close</button>
+</div>
+
+<script>
+const colors = [
+
+"#E8DCEB",
+"#D6C8DF",
+"#C4B3D4",
+"#B29FC8",
+"#A18BBC",
+"#8F77B0",
+
+"#E6EAF2",
+"#D4DBE8",
+"#C2CCDE",
+"#AFBDD4",
+"#9DAECA",
+"#8B9FC0",
+
+"#E7DDD6",
+"#D6C9C1",
+"#C4B5AC",
+"#B3A197",
+"#A18D82",
+"#90796D",
+
+"#DCE6E8",
+"#C8D7DA",
+"#B4C8CC",
+"#A0B9BE",
+"#8CAAB0",
+"#789BA2",
+
+"#E6DCDC",
+"#D5C7C7",
+"#C4B2B2",
+"#B39D9D",
+"#A28888",
+"#917373"
+
+];
+
+const palette = document.getElementById("palette");
+const fullscreen = document.getElementById("fullscreen");
+const fullcolor = document.getElementById("fullcolor");
+
+colors.forEach(color => {
+const div = document.createElement("div");
+div.className="color";
+div.style.background=color;
+
+div.onclick=()=>{
+fullscreen.style.display="block";
+fullcolor.style.background=color;
+};
+
+palette.appendChild(div);
+});
+
+document.getElementById("close").onclick=()=>{
+fullscreen.style.display="none";
+};
+</script>
+
+</body>
+</html>
