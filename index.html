@@ -81,7 +81,7 @@
       cursor: pointer;
     }
 
-    /* FULLSCREEN COLOR VIEW */
+    /* FULLSCREEN VIEW */
     .lightbox {
       position: fixed;
       inset: 0;
@@ -102,8 +102,8 @@
 
     .lightbox-controls {
       position: absolute;
-      top: max(16px, calc(env(safe-area-inset-top) + 8px));
-      right: max(16px, calc(env(safe-area-inset-right) + 10px));
+      top: max(14px, calc(env(safe-area-inset-top) + 8px));
+      right: max(14px, calc(env(safe-area-inset-right) + 8px));
       display: flex;
       gap: 10px;
       z-index: 3;
@@ -112,10 +112,10 @@
     .nav-btn,
     .close-btn {
       border: none;
-      background: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.22);
       color: white;
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 999px;
       backdrop-filter: blur(6px);
       font-size: 20px;
@@ -135,7 +135,7 @@
       letter-spacing: .12em;
       z-index: 3;
       transition: opacity .35s ease;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
 
     .swipe-hint.hide {
