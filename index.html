@@ -47,9 +47,13 @@
     .sidebar { padding: 14px; }
 
     .season-btn {
-      width: 100%; padding: 10px; border-radius: 12px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
       border: 1px solid var(--line);
-      margin-bottom: 6px; cursor: pointer;
+      margin-bottom: 6px;
+      cursor: pointer;
+      background: white;
     }
 
     .content { padding: 18px; }
@@ -76,9 +80,12 @@
     }
 
     .lightbox {
-      position: fixed; inset: 0; display: none;
+      position: fixed;
+      inset: 0;
+      display: none;
       background: rgba(0,0,0,0.82);
-      justify-content: center; align-items: center;
+      justify-content: center;
+      align-items: center;
       padding: 18px;
     }
 
@@ -119,6 +126,7 @@
 
     .swipe-hint.hide {
       opacity: 0;
+      pointer-events: none;
     }
 
     .swipe-arrow {
@@ -198,7 +206,7 @@
       </div>
 
       <div class="lightbox-card" id="lightboxCard">
-        <div class="swipe-hint">
+        <div class="swipe-hint" id="swipeHint">
           <button class="swipe-arrow" id="hintPrevBtn" type="button" aria-label="Previous color">←</button>
           <div class="swipe-label">SWIPE</div>
           <button class="swipe-arrow" id="hintNextBtn" type="button" aria-label="Next color">→</button>
@@ -249,11 +257,13 @@
     const closeBtn = document.getElementById('closeBtn');
     const hintPrevBtn = document.getElementById('hintPrevBtn');
     const hintNextBtn = document.getElementById('hintNextBtn');
+    const swipeHint = document.getElementById('swipeHint');
 
     let currentPaletteName = 'Soft Summer';
     let currentIndex = 0;
     let touchStartX = 0;
     let swipeHintTimeout;
+    let swipeHintShown = false;
 
     function render() {
       seasonList.innerHTML = '';
@@ -272,6 +282,7 @@
       currentPaletteName = name;
       paletteName.textContent = `${name} (${palettes[name].length} colors)`;
       colorGrid.innerHTML = '';
+
       palettes[name].forEach((color, index) => {
         if (index !== 0 && index % 12 === 0) {
           const gap = document.createElement('div');
@@ -293,12 +304,17 @@
       lightboxCard.style.background = color;
       lightboxHex.textContent = color;
 
-      const hint = document.querySelector('.swipe-hint');
-      hint.classList.remove('hide');
-      clearTimeout(swipeHintTimeout);
-      swipeHintTimeout = setTimeout(() => {
-        hint.classList.add('hide');
-      }, 1000);
+      if (!swipeHintShown) {
+        swipeHint.classList.remove('hide');
+
+        clearTimeout(swipeHintTimeout);
+        swipeHintTimeout = setTimeout(() => {
+          swipeHint.classList.add('hide');
+          swipeHintShown = true;
+        }, 1800);
+      } else {
+        swipeHint.classList.add('hide');
+      }
     }
 
     function open(index) {
@@ -311,41 +327,54 @@
       lightbox.classList.remove('show');
     }
 
-    // REMOVE TAP-TO-CLOSE ON COLOR (so swipe works reliably)
-    // users close using background tap or close button
+    function hideSwipeHintForever() {
+      swipeHint.classList.add('hide');
+      swipeHintShown = true;
+      clearTimeout(swipeHintTimeout);
+    }
 
     function showPrev() {
       const colors = palettes[currentPaletteName];
       currentIndex = (currentIndex - 1 + colors.length) % colors.length;
+      hideSwipeHintForever();
       updateLightbox();
     }
 
     function showNext() {
       const colors = palettes[currentPaletteName];
       currentIndex = (currentIndex + 1) % colors.length;
+      hideSwipeHintForever();
       updateLightbox();
     }
 
     prevBtn.onclick = showPrev;
     nextBtn.onclick = showNext;
+
     hintPrevBtn.onclick = (e) => {
       e.stopPropagation();
       showPrev();
     };
+
     hintNextBtn.onclick = (e) => {
       e.stopPropagation();
       showNext();
     };
+
     closeBtn.onclick = closeLightbox;
 
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
     });
 
-    lightboxCard.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].clientX);
+    lightboxCard.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].clientX;
+    });
+
     lightboxCard.addEventListener('touchend', e => {
       const diff = e.changedTouches[0].clientX - touchStartX;
-      if(Math.abs(diff) < 40) return;
+      if (Math.abs(diff) < 40) return;
+
+      hideSwipeHintForever();
       diff < 0 ? showNext() : showPrev();
     });
 
