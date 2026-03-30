@@ -1,384 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shades of Hue Client Palette</title>
-  <style>
-    :root {
-      --bg: #f6f0ee;
-      --card: rgba(255,255,255,0.78);
-      --text: #3f3436;
-      --muted: #85767a;
-      --line: rgba(63,52,54,0.10);
-      --shadow: 0 14px 40px rgba(79, 57, 61, 0.10);
-      --radius: 24px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shades of Hue Client Palette</title>
 
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.82), transparent 26%),
-        radial-gradient(circle at bottom right, rgba(230,217,223,0.55), transparent 22%),
-        linear-gradient(180deg, #faf5f4 0%, #f1e7e8 100%);
-      color: var(--text);
-    }
+<style>
+:root {
+--bg: #f6f0ee;
+--card: rgba(255,255,255,0.78);
+--text: #3f3436;
+--muted: #85767a;
+--line: rgba(63,52,54,0.10);
+--shadow: 0 14px 40px rgba(79, 57, 61, 0.10);
+--radius: 24px;
+}
 
-    body { padding: 18px; }
+* { box-sizing: border-box; }
 
-    .shell { max-width: 1150px; margin: 0 auto; display: grid; gap: 18px; }
+html, body {
+margin: 0;
+font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+background:
+radial-gradient(circle at top left, rgba(255,255,255,0.82), transparent 26%),
+radial-gradient(circle at bottom right, rgba(230,217,223,0.55), transparent 22%),
+linear-gradient(180deg, #faf5f4 0%, #f1e7e8 100%);
+color: var(--text);
+}
 
-    .hero {
-      background: var(--card);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: 22px;
-    }
+body { padding: 18px; }
 
-    .brand { font-family: Georgia, serif; font-size: 2.4rem; }
-    .sub { color: var(--muted); }
+.shell { max-width: 1150px; margin: 0 auto; display: grid; gap: 18px; }
 
-    .layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; }
+.hero {
+background: var(--card);
+border-radius: 28px;
+box-shadow: var(--shadow);
+padding: 22px;
+}
 
-    .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+.brand { font-family: Georgia, serif; font-size: 2.4rem; }
+.sub { color: var(--muted); }
 
-    .sidebar { padding: 14px; }
+.layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; }
 
-    .season-btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      margin-bottom: 6px;
-      cursor: pointer;
-      background: white;
-    }
+.panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
 
-    .content { padding: 18px; }
+.sidebar { padding: 14px; }
 
-    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.season-btn {
+width: 100%;
+padding: 10px;
+border-radius: 12px;
+border: 1px solid var(--line);
+margin-bottom: 6px;
+cursor: pointer;
+background:white;
+}
 
-    .group-gap {
-      grid-column: 1 / -1;
-      height: 18px;
-    }
+.content { padding: 18px; }
 
-    .tile {
-      aspect-ratio: 1;
-      border-radius: 20px;
-      border: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 
-    .tile:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 22px rgba(0,0,0,0.10);
-    }
+.group-gap {
+grid-column: 1 / -1;
+height: 18px;
+}
 
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      display: none;
-      background: rgba(0,0,0,0.82);
-      justify-content: center;
-      align-items: center;
-      padding: 18px;
-    }
+.tile {
+aspect-ratio: 1;
+border-radius: 20px;
+border: none;
+box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+cursor: pointer;
+transition: transform .15s ease, box-shadow .15s ease;
+}
 
-    .lightbox.show { display: flex; }
+.tile:hover {
+transform: scale(1.05);
+box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+}
 
-    .lightbox-inner {
-      width: min(92vw, 760px);
-      display: grid;
-      gap: 14px;
-      justify-items: center;
-    }
+.lightbox {
+position: fixed;
+inset: 0;
+display: none;
+background: rgba(0,0,0,0.82);
+justify-content: center;
+align-items: center;
+padding: 18px;
+}
 
-    .lightbox-card {
-      width: 100%;
-      height: min(74vh, 660px);
-      border-radius: 30px;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
-      touch-action: pan-y;
-      position: relative;
-      overflow: hidden;
-    }
+.lightbox.show { display: flex; }
 
-    .swipe-hint {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      color: white;
-      font-size: 0.75rem;
-      letter-spacing: .08em;
-      opacity: .9;
-      z-index: 2;
-      transition: opacity .5s ease;
-    }
+.lightbox-inner {
+width: min(92vw, 760px);
+display: grid;
+gap: 14px;
+justify-items: center;
+}
 
-    .swipe-hint.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
+.lightbox-card {
+width: 100%;
+height: min(74vh, 660px);
+border-radius: 30px;
+box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+touch-action: pan-y;
+position: relative;
+overflow: hidden;
+}
 
-    .swipe-arrow {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(6px);
-      font-size: 10px;
-      border: none;
-      color: white;
-      cursor: pointer;
-      opacity: 0.9;
-    }
+.swipe-hint {
+position: absolute;
+bottom: 18px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 12px;
+align-items: center;
+color: white;
+font-size: 0.75rem;
+letter-spacing: .08em;
+opacity: .9;
+z-index: 2;
+transition: opacity .5s ease;
+}
 
-    .swipe-label {
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 7px 10px;
-      backdrop-filter: blur(6px);
-    }
+.swipe-hint.hide {
+opacity: 0;
+pointer-events:none;
+}
 
-    .lightbox-toolbar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      color: white;
-    }
+.swipe-arrow {
+width: 22px;
+height: 22px;
+border-radius: 999px;
+background: rgba(255,255,255,0.16);
+display: flex;
+align-items: center;
+justify-content: center;
+backdrop-filter: blur(6px);
+font-size: 10px;
+border: none;
+color: white;
+cursor: pointer;
+}
 
-    .lightbox-hex { font-weight: 600; }
+.swipe-label {
+background: rgba(255,255,255,0.12);
+border-radius: 999px;
+padding: 7px 10px;
+backdrop-filter: blur(6px);
+}
 
-    .nav-btn, .close-btn {
-      border: none;
-      background: rgba(255,255,255,0.16);
-      color: white;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-    }
+.lightbox-toolbar {
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+color: white;
+}
 
-    @media (max-width: 800px) {
-      .grid { grid-template-columns: repeat(3,1fr); }
-    }
-  </style>
+.lightbox-hex { font-weight: 600; }
+
+.nav-btn, .close-btn {
+border: none;
+background: rgba(255,255,255,0.16);
+color: white;
+border-radius: 999px;
+padding: 10px 14px;
+cursor: pointer;
+backdrop-filter: blur(8px);
+}
+
+@media (max-width: 800px) {
+.grid { grid-template-columns: repeat(3,1fr); }
+}
+</style>
 </head>
+
 <body>
-  <div class="shell">
-    <section class="hero">
-      <h1 class="brand">Shades of Hue</h1>
-      <p class="sub">Tap any color to see it full screen. Swipe between colors.</p>
-    </section>
+<div class="shell">
 
-    <section class="layout">
-      <aside class="panel sidebar" id="seasonList"></aside>
-      <main class="panel content">
-        <h2 id="paletteName">Soft Summer</h2>
-        <div class="grid" id="colorGrid"></div>
-      </main>
-    </section>
-  </div>
+<section class="hero">
+<h1 class="brand">Shades of Hue</h1>
+<p class="sub">Tap any color to see it full screen. Swipe between colors.</p>
+</section>
 
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-inner">
-      <div class="lightbox-toolbar">
-        <div class="lightbox-hex" id="lightboxHex">#000000</div>
-        <div>
-          <button class="nav-btn" id="prevBtn">←</button>
-          <button class="nav-btn" id="nextBtn">→</button>
-          <button class="close-btn" id="closeBtn">Close</button>
-        </div>
-      </div>
+<section class="layout">
+<aside class="panel sidebar" id="seasonList"></aside>
 
-      <div class="lightbox-card" id="lightboxCard">
-        <div class="swipe-hint" id="swipeHint">
-          <button class="swipe-arrow" id="hintPrevBtn" type="button" aria-label="Previous color">←</button>
-          <div class="swipe-label">SWIPE</div>
-          <button class="swipe-arrow" id="hintNextBtn" type="button" aria-label="Next color">→</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<main class="panel content">
+<h2 id="paletteName">Soft Summer</h2>
+<div class="grid" id="colorGrid"></div>
+</main>
+</section>
 
-  <script>
-    const curatedSoftSummer = [
-      // COOL GREYS / TAUPES (from image top row)
-      '#7F7F81','#9A9E9E','#A59694','#B8AFAD','#C8BEB3','#D3C8B8',
-      '#CFC7BE','#C7C2B3','#B7B4A8','#A7A59D','#96948E','#7C7B78',
+</div>
 
-      // DUSTY BLUES (denim → soft sky)
-      '#556F97','#7FA5C7','#467CA8','#5C8FBD','#587C9B','#6E93B2',
-      '#8FA8C3','#A5BBD1','#4E6B8F','#6E8FB0','#88A6C0','#B2C4D7',
+<div class="lightbox" id="lightbox">
+<div class="lightbox-inner">
 
-      // TEALS / BLUE GREENS
-      '#356563','#4C7A6D','#567F86','#5F8F91','#7FAEA3','#6F9A8A',
-      '#89AD88','#9AAA90','#2F6A5F','#3F7F75','#5B9C90','#79B3A7',
+<div class="lightbox-toolbar">
+<div class="lightbox-hex" id="lightboxHex">#000000</div>
+<div>
+<button class="nav-btn" id="prevBtn">←</button>
+<button class="nav-btn" id="nextBtn">→</button>
+<button class="close-btn" id="closeBtn">Close</button>
+</div>
+</div>
 
-      // MAUVE / PURPLE FAMILY
-      '#6F5B6E','#575775','#67678A','#7878A0','#8A8FB1','#9EA3BF',
-      '#A87895','#B2749E','#5F5164','#6E668C','#8787A8','#A3A7C2',
+<div class="lightbox-card" id="lightboxCard">
+<div class="swipe-hint" id="swipeHint">
+<button class="swipe-arrow" id="hintPrevBtn">←</button>
+<div class="swipe-label">SWIPE</div>
+<button class="swipe-arrow" id="hintNextBtn">→</button>
+</div>
+</div>
 
-      // ROSES / PINKS
-      '#754C62','#9C5569','#B0717F','#C28792','#D497A1','#E0AEB4',
-      '#C04863','#E14F67','#E08D94','#E3A1A6','#D89198','#E6BFC3',
+</div>
+</div>
 
-      // WARM SOFTS / BEIGE / GOLD
-      '#C9B67B','#D8C892','#D3B982','#D7CEBA','#7C726C','#918B80',
-      '#868986','#B9B6B2','#E4D79F','#E8D6A4','#CFA35A','#9C7A49'
-    ];
+<script>
 
-    const palettes = {
-      'Soft Summer': curatedSoftSummer
-    };
+const curatedSoftSummer = [
 
-    const seasonList = document.getElementById('seasonList');
-    const colorGrid = document.getElementById('colorGrid');
-    const paletteName = document.getElementById('paletteName');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxCard = document.getElementById('lightboxCard');
-    const lightboxHex = document.getElementById('lightboxHex');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const hintPrevBtn = document.getElementById('hintPrevBtn');
-    const hintNextBtn = document.getElementById('hintNextBtn');
-    const swipeHint = document.getElementById('swipeHint');
+'#7F7F81','#9A9E9E','#A59694','#B8AFAD','#C8BEB3','#D3C8B8',
+'#CFC7BE','#C7C2B3','#B7B4A8','#A7A59D','#96948E','#7C7B78',
 
-    let currentPaletteName = 'Soft Summer';
-    let currentIndex = 0;
-    let touchStartX = 0;
-    let swipeHintTimeout;
-    let swipeHintShown = false;
+'#556F97','#7FA5C7','#467CA8','#5C8FBD','#587C9B','#6E93B2',
+'#8FA8C3','#A5BBD1','#4E6B8F','#6E8FB0','#88A6C0','#B2C4D7',
 
-    function render() {
-      seasonList.innerHTML = '';
-      Object.keys(palettes).forEach(name => {
-        const btn = document.createElement('button');
-        btn.className = 'season-btn';
-        btn.textContent = name;
-        btn.onclick = () => loadPalette(name);
-        seasonList.appendChild(btn);
-      });
+'#356563','#4C7A6D','#567F86','#5F8F91','#7FAEA3','#6F9A8A',
+'#89AD88','#9AAA90','#2F6A5F','#3F7F75','#5B9C90','#79B3A7',
 
-      loadPalette('Soft Summer');
-    }
+'#6F5B6E','#575775','#67678A','#7878A0','#8A8FB1','#9EA3BF',
+'#A87895','#B2749E','#5F5164','#6E668C','#8787A8','#A3A7C2',
 
-    function loadPalette(name) {
-      currentPaletteName = name;
-      paletteName.textContent = `${name} (${palettes[name].length} colors)`;
-      colorGrid.innerHTML = '';
+'#754C62','#9C5569','#B0717F','#C28792','#D497A1','#E0AEB4',
+'#C04863','#E14F67','#E08D94','#E3A1A6','#D89198','#E6BFC3',
 
-      palettes[name].forEach((color, index) => {
-        if (index !== 0 && index % 12 === 0) {
-          const gap = document.createElement('div');
-          gap.className = 'group-gap';
-          colorGrid.appendChild(gap);
-        }
+'#C9B67B','#D8C892','#D3B982','#D7CEBA','#7C726C','#918B80',
+'#868986','#B9B6B2','#E4D79F','#E8D6A4','#CFA35A','#9C7A49'
 
-        const tile = document.createElement('div');
-        tile.className = 'tile';
-        tile.style.background = color;
-        tile.onclick = () => open(index);
-        colorGrid.appendChild(tile);
-      });
-    }
+];
 
-    function updateLightbox() {
-      const colors = palettes[currentPaletteName];
-      const color = colors[currentIndex];
-      lightboxCard.style.background = color;
-      lightboxHex.textContent = color;
+const palettes = {
+'Soft Summer': curatedSoftSummer
+};
 
-      if (!swipeHintShown) {
-        swipeHint.classList.remove('hide');
+const seasonList = document.getElementById('seasonList');
+const colorGrid = document.getElementById('colorGrid');
+const paletteName = document.getElementById('paletteName');
+const lightbox = document.getElementById('lightbox');
+const lightboxCard = document.getElementById('lightboxCard');
+const lightboxHex = document.getElementById('lightboxHex');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const closeBtn = document.getElementById('closeBtn');
+const swipeHint = document.getElementById('swipeHint');
 
-        clearTimeout(swipeHintTimeout);
-        swipeHintTimeout = setTimeout(() => {
-          swipeHint.classList.add('hide');
-          swipeHintShown = true;
-        }, 1800);
-      } else {
-        swipeHint.classList.add('hide');
-      }
-    }
+let currentPaletteName = 'Soft Summer';
+let currentIndex = 0;
+let touchStartX = 0;
+let swipeHintShown = false;
 
-    function open(index) {
-      currentIndex = index;
-      updateLightbox();
-      lightbox.classList.add('show');
-    }
+function render(){
+seasonList.innerHTML='';
 
-    function closeLightbox() {
-      lightbox.classList.remove('show');
-    }
+Object.keys(palettes).forEach(name=>{
+const btn=document.createElement('button');
+btn.className='season-btn';
+btn.textContent=name;
+btn.onclick=()=>loadPalette(name);
+seasonList.appendChild(btn);
+});
 
-    function hideSwipeHintForever() {
-      swipeHint.classList.add('hide');
-      swipeHintShown = true;
-      clearTimeout(swipeHintTimeout);
-    }
+loadPalette('Soft Summer');
+}
 
-    function showPrev() {
-      const colors = palettes[currentPaletteName];
-      currentIndex = (currentIndex - 1 + colors.length) % colors.length;
-      hideSwipeHintForever();
-      updateLightbox();
-    }
+function loadPalette(name){
+currentPaletteName=name;
+paletteName.textContent=name;
+colorGrid.innerHTML='';
 
-    function showNext() {
-      const colors = palettes[currentPaletteName];
-      currentIndex = (currentIndex + 1) % colors.length;
-      hideSwipeHintForever();
-      updateLightbox();
-    }
+palettes[name].forEach((color,index)=>{
 
-    prevBtn.onclick = showPrev;
-    nextBtn.onclick = showNext;
+if(index!==0 && index%12===0){
+const gap=document.createElement('div');
+gap.className='group-gap';
+colorGrid.appendChild(gap);
+}
 
-    hintPrevBtn.onclick = (e) => {
-      e.stopPropagation();
-      showPrev();
-    };
+const tile=document.createElement('div');
+tile.className='tile';
+tile.style.background=color;
+tile.onclick=()=>open(index);
 
-    hintNextBtn.onclick = (e) => {
-      e.stopPropagation();
-      showNext();
-    };
+colorGrid.appendChild(tile);
 
-    closeBtn.onclick = closeLightbox;
+});
+}
 
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
+function updateLightbox(){
+const colors=palettes[currentPaletteName];
+const color=colors[currentIndex];
 
-    lightboxCard.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].clientX;
-    });
+lightboxCard.style.background=color;
+lightboxHex.textContent=color;
 
-    lightboxCard.addEventListener('touchend', e => {
-      const diff = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(diff) < 40) return;
+if(!swipeHintShown){
+swipeHint.classList.remove('hide');
 
-      hideSwipeHintForever();
-      diff < 0 ? showNext() : showPrev();
-    });
+setTimeout(()=>{
+swipeHint.classList.add('hide');
+swipeHintShown=true;
+},1800);
+}
+}
 
-    render();
-  </script>
+function open(index){
+currentIndex=index;
+updateLightbox();
+lightbox.classList.add('show');
+}
+
+function closeLightbox(){
+lightbox.classList.remove('show');
+}
+
+function showPrev(){
+const colors=palettes[currentPaletteName];
+currentIndex=(currentIndex-1+colors.length)%colors.length;
+swipeHint.classList.add('hide');
+updateLightbox();
+}
+
+function showNext(){
+const colors=palettes[currentPaletteName];
+currentIndex=(currentIndex+1)%colors.length;
+swipeHint.classList.add('hide');
+updateLightbox();
+}
+
+prevBtn.onclick=showPrev;
+nextBtn.onclick=showNext;
+closeBtn.onclick=closeLightbox;
+
+lightboxCard.addEventListener('touchstart',e=>{
+touchStartX=e.changedTouches[0].clientX;
+});
+
+lightboxCard.addEventListener('touchend',e=>{
+const diff=e.changedTouches[0].clientX-touchStartX;
+
+if(Math.abs(diff)<40)return;
+
+swipeHint.classList.add('hide');
+
+diff<0?showNext():showPrev();
+});
+
+render();
+
+</script>
 </body>
 </html>
