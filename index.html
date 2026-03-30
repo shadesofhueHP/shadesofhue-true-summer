@@ -7,11 +7,9 @@
 
 <style>
 :root {
---bg: #f6f0ee;
 --card: rgba(255,255,255,0.78);
 --text: #3f3436;
 --muted: #85767a;
---line: rgba(63,52,54,0.10);
 --shadow: 0 14px 40px rgba(79, 57, 61, 0.10);
 --radius: 24px;
 }
@@ -20,38 +18,56 @@
 
 html, body {
 margin: 0;
-font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+font-family: Inter, system-ui, sans-serif;
 background:
-radial-gradient(circle at top left, rgba(255,255,255,0.82), transparent 26%),
-radial-gradient(circle at bottom right, rgba(230,217,223,0.55), transparent 22%),
 linear-gradient(180deg, #faf5f4 0%, #f1e7e8 100%);
 color: var(--text);
 }
 
-body { padding: 18px; }
+body { padding: 14px; }
 
-.shell { max-width: 1150px; margin: 0 auto; display: grid; gap: 18px; }
+.shell {
+max-width: 900px;
+margin: 0 auto;
+display: grid;
+gap: 16px;
+}
 
 .hero {
 background: var(--card);
-border-radius: 28px;
+border-radius: 26px;
 box-shadow: var(--shadow);
-padding: 22px;
+padding: 20px;
+text-align:center;
 }
 
-.brand { font-family: Georgia, serif; font-size: 2.4rem; margin:0; }
-.sub { color: var(--muted); margin:4px 0 0 0; }
+.logo {
+width:140px;
+margin-bottom:8px;
+}
 
-.layout { display: grid; grid-template-columns: 1fr; gap: 18px; }
+.title {
+font-family: Georgia, serif;
+font-size: 28px;
+margin: 0;
+}
 
-.panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); }
+.sub {
+color: var(--muted);
+font-size:14px;
+}
 
-.content { padding: 18px; }
+.panel {
+background: var(--card);
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+padding: 16px;
+}
 
 .grid {
 display: grid;
-grid-template-columns: repeat(5, 1fr);
-gap: 14px;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
 }
 
 .group-title {
@@ -60,13 +76,12 @@ font-size: 11px;
 letter-spacing: .12em;
 text-transform: uppercase;
 color: var(--muted);
-margin-top: 10px;
+margin-top: 6px;
 }
 
 .tile {
 aspect-ratio: 1;
-border-radius: 20px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+border-radius: 18px;
 cursor: pointer;
 }
 
@@ -74,21 +89,50 @@ cursor: pointer;
 position: fixed;
 inset: 0;
 display: none;
-background: rgba(0,0,0,0.82);
+background: rgba(0,0,0,0.85);
 justify-content: center;
 align-items: center;
+padding:16px;
 }
 
-.lightbox.show { display: flex; }
+.lightbox.show { display:flex; }
 
-.lightbox-card {
-width: 80vw;
-height: 70vh;
-border-radius: 28px;
-position: relative;
+.lightbox-inner {
+width:100%;
+max-width:500px;
+padding:0 10px;
 }
 
-.swipe-hint {
+.lightbox-toolbar{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-bottom:8px;
+}
+
+.nav-btn{
+background:rgba(255,255,255,.18);
+border:none;
+color:white;
+padding:10px 12px;
+border-radius:999px;
+}
+
+.close-btn{
+background:rgba(255,255,255,.18);
+border:none;
+color:white;
+padding:10px 14px;
+border-radius:999px;
+}
+
+.lightbox-card{
+height:65vh;
+border-radius:24px;
+position:relative;
+}
+
+.swipe-hint{
 position:absolute;
 bottom:18px;
 left:50%;
@@ -96,42 +140,49 @@ transform:translateX(-50%);
 color:white;
 font-size:12px;
 letter-spacing:.12em;
-transition:.3s;
 }
 
-.swipe-hint.hide { opacity:0; }
-
-@media (max-width:800px){
-.grid{grid-template-columns:repeat(3,1fr);}
-}
 </style>
 </head>
 
 <body>
 
 <div class="shell">
+
 <section class="hero">
-<h1 class="brand">Shades of Hue</h1>
-<p class="sub">Tap color to view full screen</p>
+
+<img src="YOUR-LOGO.png" class="logo"/>
+
+<h1 class="title">Soft Summer</h1>
+<div class="sub">Tap color • Swipe to browse</div>
+
 </section>
 
-<section class="layout">
-<main class="panel content">
-<h2>Soft Summer</h2>
+<section class="panel">
 <div class="grid" id="grid"></div>
-</main>
 </section>
+
 </div>
 
 <div class="lightbox" id="lightbox">
+<div class="lightbox-inner">
+
+<div class="lightbox-toolbar">
+<button class="nav-btn" id="prev">←</button>
+<button class="nav-btn" id="next">→</button>
+<button class="close-btn" id="close">✕</button>
+</div>
+
 <div class="lightbox-card" id="card">
-<div class="swipe-hint" id="hint">SWIPE</div>
+<div class="swipe-hint">SWIPE</div>
+</div>
+
 </div>
 </div>
 
 <script>
 
-const groups = [
+const groups=[
 
 {
 title:"Neutrals",
@@ -199,11 +250,9 @@ colors:[
 const grid=document.getElementById("grid");
 const lightbox=document.getElementById("lightbox");
 const card=document.getElementById("card");
-const hint=document.getElementById("hint");
 
 let colors=[];
 let index=0;
-let shown=false;
 let startX=0;
 
 groups.forEach(g=>{
@@ -214,13 +263,10 @@ grid.appendChild(t);
 
 g.colors.forEach(c=>{
 colors.push(c);
-
 const tile=document.createElement("div");
 tile.className="tile";
 tile.style.background=c;
-
 tile.onclick=()=>open(colors.length-1);
-
 grid.appendChild(tile);
 });
 });
@@ -229,17 +275,19 @@ function open(i){
 index=i;
 card.style.background=colors[i];
 lightbox.classList.add("show");
-
-if(!shown){
-hint.classList.remove("hide");
-setTimeout(()=>{
-hint.classList.add("hide");
-shown=true;
-},1500);
-}
 }
 
-lightbox.onclick=()=>lightbox.classList.remove("show");
+document.getElementById("close").onclick=()=>lightbox.classList.remove("show");
+
+document.getElementById("next").onclick=()=>{
+index=(index+1)%colors.length;
+card.style.background=colors[index];
+};
+
+document.getElementById("prev").onclick=()=>{
+index=(index-1+colors.length)%colors.length;
+card.style.background=colors[index];
+};
 
 card.addEventListener("touchstart",e=>{
 startX=e.touches[0].clientX;
@@ -248,15 +296,9 @@ startX=e.touches[0].clientX;
 card.addEventListener("touchend",e=>{
 const diff=e.changedTouches[0].clientX-startX;
 if(Math.abs(diff)<40)return;
-
-hint.classList.add("hide");
-
-if(diff<0)index++;
-else index--;
-
+if(diff<0)index++; else index--;
 if(index<0)index=colors.length-1;
 if(index>=colors.length)index=0;
-
 card.style.background=colors[index];
 });
 
