@@ -82,6 +82,7 @@ background:rgba(255,255,255,.25);
 color:white;
 font-size:18px;
 backdrop-filter:blur(6px);
+cursor:pointer;
 }
 
 .swipe{
@@ -92,6 +93,25 @@ transform:translateX(-50%);
 color:white;
 letter-spacing:.15em;
 font-size:12px;
+}
+
+@media (max-width:640px){
+.grid{
+gap:12px;
+}
+.tile{
+border-radius:18px;
+}
+.controls{
+top:12px;
+right:12px;
+gap:8px;
+}
+.btn{
+width:44px;
+height:44px;
+font-size:17px;
+}
 }
 </style>
 </head>
@@ -132,20 +152,34 @@ colors:[
 "#B2A7AB",
 "#8E8587",
 "#CBC4C7",
-"#AA9D9F"
+"#AA9D9F",
+"#B8AFB1",
+"#CFC8CB"
 ]
 },
 
 {
-title:"ROSES & PINKS",
+title:"ROSES + DEEP PINKS",
 colors:[
 "#A86B76",
 "#CA5D7C",
 "#D76D87",
 "#C97787",
+"#C56F82",
 "#CF8092",
 "#D697A5",
-"#E5B4C0"
+"#D78C9D",
+"#E5B4C0",
+"#E9BDC7"
+]
+},
+
+{
+title:"BLUSH + LIGHT PINKS",
+colors:[
+"#E7B9C7",
+"#EFC7D0",
+"#DFA0B3"
 ]
 },
 
@@ -157,9 +191,10 @@ colors:[
 },
 
 {
-title:"SOFT TEALS",
+title:"SOFT TEALS + BLUE GREENS",
 colors:[
 "#A5CAC6",
+"#94B9B8",
 "#6E9FA5"
 ]
 },
@@ -168,11 +203,22 @@ colors:[
 title:"SOFT BLUES",
 colors:[
 "#ABC4D0",
+"#9FBBCB",
 "#86AFC6",
 "#729ABB",
 "#8798B0",
+"#7E8FA8",
 "#6881A0",
 "#AEBBC9"
+]
+},
+
+{
+title:"BLUE GREYS",
+colors:[
+"#9CA8B7",
+"#8795A8",
+"#BFCDD8"
 ]
 },
 
@@ -182,15 +228,19 @@ colors:[
 "#8897BB",
 "#7381AC",
 "#AFAFC2",
+"#9A9CBD",
 "#8A8CB0",
 "#B2B3CD"
 ]
 },
 
 {
-title:"MAUVES & PURPLES",
+title:"LAVENDERS + MAUVES",
 colors:[
+"#9E98BB",
 "#8A82A5",
+"#B4AAD0",
+"#A58DB8",
 "#B086B1",
 "#CC95B0"
 ]
