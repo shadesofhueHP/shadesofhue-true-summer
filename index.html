@@ -86,34 +86,20 @@ body { padding: 14px; }
   inset: 0;
   display: none;
   background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
+  z-index: 9999;
 }
 
-.lightbox.show { 
-  display: flex;
-}
-
-.lightbox-inner {
-  width: 100%;
-  max-width: 560px;
-  padding-left: 28px;
-  padding-right: 46px;
-}
-
-@supports (padding: max(0px)) {
-  .lightbox-inner {
-    padding-left: max(28px, env(safe-area-inset-left));
-    padding-right: max(46px, calc(env(safe-area-inset-right) + 26px));
-  }
+.lightbox.show {
+  display: block;
 }
 
 .lightbox-toolbar {
+  position: absolute;
+  top: max(18px, env(safe-area-inset-top));
+  right: max(18px, calc(env(safe-area-inset-right) + 18px));
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
-  margin-bottom: 12px;
+  z-index: 3;
 }
 
 .nav-btn,
@@ -131,9 +117,12 @@ body { padding: 14px; }
 }
 
 .lightbox-card {
-  height: 65vh;
-  border-radius: 24px;
-  position: relative;
+  position: absolute;
+  top: max(78px, calc(env(safe-area-inset-top) + 68px));
+  left: 12px;
+  right: 12px;
+  bottom: max(18px, calc(env(safe-area-inset-bottom) + 18px));
+  border-radius: 28px;
 }
 
 .swipe-hint {
@@ -144,6 +133,13 @@ body { padding: 14px; }
   color: white;
   font-size: 12px;
   letter-spacing: .12em;
+  z-index: 2;
+  transition: opacity .35s ease;
+}
+
+.swipe-hint.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 800px) {
@@ -168,16 +164,14 @@ body { padding: 14px; }
 </div>
 
 <div class="lightbox" id="lightbox">
-  <div class="lightbox-inner">
-    <div class="lightbox-toolbar">
-      <button class="nav-btn" id="prev">←</button>
-      <button class="nav-btn" id="next">→</button>
-      <button class="close-btn" id="close">✕</button>
-    </div>
+  <div class="lightbox-toolbar">
+    <button class="nav-btn" id="prev">←</button>
+    <button class="nav-btn" id="next">→</button>
+    <button class="close-btn" id="close">✕</button>
+  </div>
 
-    <div class="lightbox-card" id="card">
-      <div class="swipe-hint">SWIPE</div>
-    </div>
+  <div class="lightbox-card" id="card">
+    <div class="swipe-hint" id="hint">SWIPE</div>
   </div>
 </div>
 
@@ -242,10 +236,13 @@ const groups = [
 const grid = document.getElementById("grid");
 const lightbox = document.getElementById("lightbox");
 const card = document.getElementById("card");
+const hint = document.getElementById("hint");
 
 let colors = [];
 let index = 0;
 let startX = 0;
+let hintShown = false;
+let hintTimer;
 
 groups.forEach(g => {
   const t = document.createElement("div");
@@ -263,23 +260,52 @@ groups.forEach(g => {
   });
 });
 
-function open(i) {
-  index = i;
-  card.style.background = colors[i];
-  lightbox.classList.add("show");
+function showColor() {
+  card.style.background = colors[index];
 }
 
-document.getElementById("close").onclick = () => lightbox.classList.remove("show");
+function open(i) {
+  index = i;
+  showColor();
+  lightbox.classList.add("show");
 
-document.getElementById("next").onclick = () => {
+  if (!hintShown) {
+    hint.classList.remove("hide");
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(() => {
+      hint.classList.add("hide");
+      hintShown = true;
+    }, 1500);
+  } else {
+    hint.classList.add("hide");
+  }
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("show");
+}
+
+function showNext() {
   index = (index + 1) % colors.length;
-  card.style.background = colors[index];
-};
+  hint.classList.add("hide");
+  hintShown = true;
+  showColor();
+}
 
-document.getElementById("prev").onclick = () => {
+function showPrev() {
   index = (index - 1 + colors.length) % colors.length;
-  card.style.background = colors[index];
-};
+  hint.classList.add("hide");
+  hintShown = true;
+  showColor();
+}
+
+document.getElementById("close").onclick = closeLightbox;
+document.getElementById("next").onclick = showNext;
+document.getElementById("prev").onclick = showPrev;
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
 
 card.addEventListener("touchstart", e => {
   startX = e.touches[0].clientX;
@@ -288,14 +314,8 @@ card.addEventListener("touchstart", e => {
 card.addEventListener("touchend", e => {
   const diff = e.changedTouches[0].clientX - startX;
   if (Math.abs(diff) < 40) return;
-
-  if (diff < 0) index++;
-  else index--;
-
-  if (index < 0) index = colors.length - 1;
-  if (index >= colors.length) index = 0;
-
-  card.style.background = colors[index];
+  if (diff < 0) showNext();
+  else showPrev();
 });
 </script>
 
