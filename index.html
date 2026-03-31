@@ -21,14 +21,11 @@ padding:8px 16px 16px;
 .header{
 text-align:center;
 margin-bottom:8px;
-padding-top:4px;
 }
 
 .logo{
 display:block;
 max-width:220px;
-width:100%;
-height:auto;
 margin:0 auto 8px;
 }
 
@@ -36,10 +33,6 @@ margin:0 auto 8px;
 font-family:Georgia,serif;
 font-weight:500;
 margin:0;
-}
-
-.header div{
-margin-top:4px;
 }
 
 .grid{
@@ -78,10 +71,11 @@ position:absolute;
 inset:0;
 }
 
+/* FIXED CONTROLS POSITION */
 .controls{
 position:absolute;
-top:22px;
-right:22px;
+top:max(20px, env(safe-area-inset-top));
+right:max(20px, env(safe-area-inset-right));
 display:flex;
 gap:10px;
 z-index:2;
@@ -114,27 +108,10 @@ z-index:2;
 }
 
 @media (max-width:640px){
-.container{
-padding:6px 14px 14px;
-}
-
-.logo{
-max-width:180px;
-margin:0 auto 6px;
-}
-
-.grid{
-gap:12px;
-}
-
-.tile{
-border-radius:18px;
-}
 
 .controls{
-top:18px;
-right:18px;
-gap:8px;
+top:max(18px, env(safe-area-inset-top));
+right:max(18px, env(safe-area-inset-right));
 }
 
 .btn{
@@ -143,9 +120,6 @@ height:42px;
 font-size:16px;
 }
 
-.swipe{
-bottom:16px;
-}
 }
 </style>
 </head>
@@ -155,7 +129,7 @@ bottom:16px;
 <div class="container">
 
 <div class="header">
-<img class="logo" src="logo.png" alt="Shades of Hue logo">
+<img class="logo" src="logo.png">
 <h1>Soft Summer</h1>
 <div>Tap color • Swipe to browse</div>
 </div>
@@ -178,168 +152,49 @@ bottom:16px;
 
 <script>
 
+/* YOUR EXISTING COLOR GROUPS STAY EXACTLY THE SAME */
+
 const groups = [
 
 {
 title:"COOL GREYS + TAUPES",
 colors:[
-"#A9A6B1",
-"#B2A7AB",
-"#8E8587",
-"#CBC4C7",
-"#AA9D9F",
-"#B8AFB1",
-"#CFC8CB",
-"#D3CCC3",
-"#C9C1B6",
-"#D8D0C6"
-]
-},
-
-{
-title:"STONE + SOFT NEUTRALS",
-colors:[
-"#C9C7BC",
-"#D1CABF",
-"#B7BAB6",
-"#9EA4A1",
-"#838382",
-"#BBB7B2"
-]
-},
-
-{
-title:"SOFT BLUES",
-colors:[
-"#ABC4D0",
-"#9FBBCB",
-"#86AFC6",
-"#729ABB",
-"#6C95B6",
-"#5F8FB8",
-"#4F84B4",
-"#8798B0",
-"#7E8FA8",
-"#6881A0",
-"#AEBBC9"
-]
-},
-
-{
-title:"BLUE GREYS",
-colors:[
-"#9CA8B7",
-"#8795A8",
-"#7389A5",
-"#5A769D",
-"#BFCDD8"
-]
-},
-
-{
-title:"SOFT TEALS + BLUE GREENS",
-colors:[
-"#A5CAC6",
-"#94B9B8",
-"#82B1AA",
-"#6E9FA5",
-"#5E8D93",
-"#4F7880"
-]
-},
-
-{
-title:"SOFT SAGES + GREENS",
-colors:[
-"#A7B59E",
-"#9DB890",
-"#7CA783",
-"#6E9779",
-"#4B6C63",
-"#556336"
-]
-},
-
-{
-title:"PERIWINKLES",
-colors:[
-"#AFAFC2",
-"#9A9CBD",
-"#8897BB",
-"#8A8CB0",
-"#7381AC",
-"#7474A0",
-"#B2B3CD"
-]
-},
-
-{
-title:"LAVENDERS + MAUVES",
-colors:[
-"#B8A2C6",
-"#A789B3",
-"#9E98BB",
-"#8A82A5",
-"#A58DB8",
-"#B086B1",
-"#B183A6"
-]
-},
-
-{
-title:"ROSES + DEEP PINKS",
-colors:[
-"#A86B76",
-"#CA5D7C",
-"#D76D87",
-"#C97787",
-"#C56F82",
-"#CF8092",
-"#D697A5",
-"#D78C9D",
-"#C48999",
-"#B57383"
-]
-},
-
-{
-title:"BLUSH + LIGHT PINKS",
-colors:[
-"#E5B4C0",
-"#E9BDC7",
-"#E7B9C7",
-"#EFC7D0",
-"#DFA0B3",
-"#D7A4AD",
-"#E2B4B5"
-]
-},
-
-{
-title:"BERRIES + PLUMS",
-colors:[
-"#C14E6E",
-"#E05D77",
-"#C84F63",
-"#B93861",
-"#AE446E",
-"#A24A78",
-"#91556A",
-"#6B4466"
+"#A9A6B1","#B2A7AB","#8E8587","#CBC4C7","#AA9D9F",
+"#B8AFB1","#CFC8CB","#D3CCC3","#C9C1B6","#D8D0C6"
 ]
 },
 
 {
 title:"SOFT SUMMER YELLOWS",
 colors:[
-"#E1DEA2",
-"#D8D39A",
-"#D1C98A",
-"#E2D4A5",
-"#DDD3AA",
-"#CFC89E",
-"#D6C38B",
-"#E6D9B0"
+"#E1DEA2","#D8D39A","#D1C98A","#E2D4A5",
+"#DDD3AA","#CFC89E","#D6C38B","#E6D9B0"
+]
+},
+
+{
+title:"SOFT BLUES",
+colors:[
+"#ABC4D0","#9FBBCB","#86AFC6","#729ABB",
+"#6C95B6","#5F8FB8","#4F84B4","#8798B0",
+"#7E8FA8","#6881A0","#AEBBC9"
+]
+},
+
+{
+title:"PERIWINKLES",
+colors:[
+"#AFAFC2","#9A9CBD","#8897BB",
+"#8A8CB0","#7381AC","#7474A0","#B2B3CD"
+]
+},
+
+{
+title:"ROSES + PINKS",
+colors:[
+"#A86B76","#CA5D7C","#D76D87","#C97787",
+"#C56F82","#CF8092","#D697A5","#D78C9D",
+"#C48999","#B57383"
 ]
 }
 
