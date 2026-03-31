@@ -6,6 +6,10 @@
 <title>Soft Summer Palette</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
+
 body{
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 margin:0;
@@ -78,38 +82,59 @@ position:absolute;
 inset:0;
 }
 
-/* X BUTTON SEPARATE SO IT NEVER GETS CUT OFF */
 .close-btn{
 position:absolute;
-top:max(18px, env(safe-area-inset-top));
-right:max(18px, env(safe-area-inset-right));
+top:24px;
+right:24px;
 z-index:3;
+width:40px;
+height:40px;
+border-radius:50%;
+border:none;
+padding:0;
+margin:0;
+background:rgba(255,255,255,.28);
+color:white;
+font-size:24px;
+line-height:1;
+display:flex;
+align-items:center;
+justify-content:center;
+backdrop-filter:blur(6px);
+-webkit-backdrop-filter:blur(6px);
+cursor:pointer;
+appearance:none;
+-webkit-appearance:none;
 }
 
-/* ARROWS GROUP */
 .controls{
 position:absolute;
-top:max(18px, env(safe-area-inset-top));
-right:calc(max(18px, env(safe-area-inset-right)) + 62px);
+top:24px;
+right:76px;
 display:flex;
 gap:10px;
 z-index:2;
 }
 
 .btn{
-width:46px;
-height:46px;
+width:44px;
+height:44px;
 border-radius:50%;
 border:none;
+padding:0;
+margin:0;
 background:rgba(255,255,255,.25);
 color:white;
 font-size:18px;
-backdrop-filter:blur(6px);
--webkit-backdrop-filter:blur(6px);
-cursor:pointer;
+line-height:1;
 display:flex;
 align-items:center;
 justify-content:center;
+backdrop-filter:blur(6px);
+-webkit-backdrop-filter:blur(6px);
+cursor:pointer;
+appearance:none;
+-webkit-appearance:none;
 }
 
 .swipe{
@@ -142,19 +167,22 @@ border-radius:18px;
 }
 
 .close-btn{
-top:max(16px, env(safe-area-inset-top));
-right:max(16px, env(safe-area-inset-right));
+top:22px;
+right:22px;
+width:38px;
+height:38px;
+font-size:22px;
 }
 
 .controls{
-top:max(16px, env(safe-area-inset-top));
-right:calc(max(16px, env(safe-area-inset-right)) + 56px);
+top:22px;
+right:68px;
 gap:8px;
 }
 
 .btn{
-width:42px;
-height:42px;
+width:40px;
+height:40px;
 font-size:16px;
 }
 
@@ -182,11 +210,11 @@ bottom:16px;
 <div id="lightbox" class="lightbox">
 <div id="lightboxColor" class="lightbox-color"></div>
 
-<button id="close" class="btn close-btn">✕</button>
+<button id="close" class="close-btn" aria-label="Close">×</button>
 
 <div class="controls">
-<button id="prev" class="btn">←</button>
-<button id="next" class="btn">→</button>
+<button id="prev" class="btn" aria-label="Previous color">←</button>
+<button id="next" class="btn" aria-label="Next color">→</button>
 </div>
 
 <div class="swipe">SWIPE</div>
